@@ -11,9 +11,6 @@ from matplotlib.legend_handler import HandlerPathCollection, HandlerLine2D
 
 def damlocations_plot(gdf_in, gdf_countries, yearcolors):
 
-    #path = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/multipops_ICOLD2023.geojson' # this has already filters applied: Built after 1975, Resettlement data, polygon area > 1km2, no transb.
-    #gdf_in = gpd.read_file(path)
-
     ### World map showing centroids of reservoirs in colour of reference year
 
     # Compute reservoir centroids
@@ -99,4 +96,4 @@ def damlocations_plot(gdf_in, gdf_countries, yearcolors):
 
     ax.set_axis_off()
     plt.show()
-    #plt.savefig('/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/damlocations.pdf', bbox_inches='tight', pad_inches=0.1)
+    #plt.savefig('damlocations.pdf', bbox_inches='tight', pad_inches=0.1)
