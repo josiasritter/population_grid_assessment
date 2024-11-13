@@ -64,6 +64,5 @@ def biascircles_plot(df_bias_cntr, groupnames, grouped_by_country_counts, popgri
         plt.tight_layout()
         # plt.show()
 
-        plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/circlebias/" + groupnames[ii] + ".pdf", format="pdf", bbox_inches="tight", pad_inches=0.1)
-        plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/circlebias/" + groupnames[ii] + ".png", format="png", bbox_inches="tight", transparent=True, pad_inches=0.1)
-        # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/circlebias/" + "0_legend_template.png", format="png", bbox_inches="tight", transparent=True)
+        plt.savefig(groupnames[ii] + ".pdf", format="pdf", bbox_inches="tight", pad_inches=0.1)
+        plt.savefig(groupnames[ii] + ".png", format="png", bbox_inches="tight", transparent=True, pad_inches=0.1)
