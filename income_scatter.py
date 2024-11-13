@@ -65,8 +65,6 @@ def income_scatterplot(gdf_in, popgrid_names, popgrid_shortnames, logax, max_val
             ax.legend(title="Country income level")
 
     plt.tight_layout()
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/incomeclass_uniformadj.pdf", format="pdf", bbox_inches="tight")
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/woChina/incomeclass_uniformadj.pdf", format="pdf", bbox_inches="tight")
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/1014y/incomeclass_uniformadj.pdf", format="pdf", bbox_inches="tight")
+    # plt.savefig("incomeclass_uniformadj.pdf", format="pdf", bbox_inches="tight")
     plt.show()
     # pdb.set_trace()
