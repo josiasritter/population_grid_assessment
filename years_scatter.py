@@ -72,10 +72,6 @@ def years_scatterplot(gdf_in, n_grids, popgrid_names, popgrid_shortnames, yearco
         # lgnd0.legendHandles[2]._sizes = [40]
 
     plt.tight_layout()
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/allyears_uniformadj.pdf", format="pdf", bbox_inches="tight")
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/allyears_uniformadj_8grids.pdf", format="pdf", bbox_inches="tight")
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/woChina/allyears_uniformadj.pdf", format="pdf", bbox_inches="tight")
-    # plt.savefig("/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/1014y/allyears_uniformadj.pdf", format="pdf", bbox_inches="tight")
-
+    # plt.savefig("allyears_uniformadj.pdf", format="pdf", bbox_inches="tight")
     plt.show()
     # pdb.set_trace()
