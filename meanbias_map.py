@@ -76,6 +76,6 @@ def meanbias_map_plot(world, world_bias):
 
     ax.set_axis_off()
     # plt.tight_layout()
-    plt.savefig('/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/circlebias/0_biasmap3_raw.pdf', bbox_inches='tight', pad_inches=0.1)
+    plt.savefig('0_biasmap3_raw.pdf', bbox_inches='tight', pad_inches=0.1)
 
     #plt.show()
