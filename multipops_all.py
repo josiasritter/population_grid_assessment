@@ -13,18 +13,16 @@ import pdb # pdb.set_trace()
 
 import sys
 import os
-sys.path.insert(0, '/Users/ritterj1/PythonProjects/PycharmProjects/damIA')
 from damIA_impact import population_impact, increase_resolution, download_url
 
 
 ### Input parameters
-#reservoirs_path='/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2019/GeoDAR_p1975_displ.geojson'
-reservoirs_path='/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/GeoDAR_ICOLD2023_p1975_displ.geojson'
+reservoirs_path='file3.geojson'
 minarea = 1 # km2
 targetres = 10  # [m]
 startyear = 1975
 endyear = 2020
-downloaddir = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/download/'
+downloaddir = '/download/'
 
 ### Preparations
 gdf_in = gpd.read_file(reservoirs_path)
@@ -57,7 +55,7 @@ popgrid_shortnames = ['ghs','lscan','wpop','wpop-un','grump','grump-un','gwp','g
 #popgrid_names = ['GRUMPv1','GWPv4.11','LandScan']
 #popgrid_shortnames = ['grump','gwp','lscan']
 srcres = [100, 1000, 100, 100, 1000, 1000, 1000, 1000] # Native resolutions of popgrids [m]. Manually provided since some popgrids are in wgs84 and others not
-basepath = '/Users/ritterj1/GIS_data/popdens/'
+basepath = '/'
 # for each popdens source, make a list of paths to all years in refyears (None if no map exists)
 ghs_files = ['api_ghs','api_ghs','api_ghs','api_ghs','api_ghs','api_ghs','api_ghs','api_ghs']
 #ghs1k_files = [basepath+'/GHSL2023/GHS_POP_E1975_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E1975_GLOBE_R2023A_4326_30ss_V1_0.tif',basepath+'/GHSL2023/GHS_POP_E1980_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E1980_GLOBE_R2023A_4326_30ss_V1_0.tif',basepath+'/GHSL2023/GHS_POP_E1985_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E1985_GLOBE_R2023A_4326_30ss_V1_0.tif', basepath+'/GHSL2023/GHS_POP_E1990_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E1990_GLOBE_R2023A_4326_30ss_V1_0.tif', basepath+'/GHSL2023/GHS_POP_E1995_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E1995_GLOBE_R2023A_4326_30ss_V1_0.tif', basepath+'/GHSL2023/GHS_POP_E2000_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E2000_GLOBE_R2023A_4326_30ss_V1_0.tif', basepath+'/GHSL2023/GHS_POP_E2005_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E2005_GLOBE_R2023A_4326_30ss_V1_0.tif', basepath+'/GHSL2023/GHS_POP_E2010_GLOBE_R2023A_4326_30ss_V1_0/GHS_POP_E2010_GLOBE_R2023A_4326_30ss_V1_0.tif']
