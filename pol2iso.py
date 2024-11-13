@@ -18,10 +18,9 @@ def get_country_iso_codes(geojson_file, countries_shapefile):
     return data
 
 # Execute
-#geojson_file='/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2019/GeoDAR_p1975_displ.geojson'
-geojson_file='/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/GeoDAR_ICOLD2023_p1975_displ.geojson'
+geojson_file='file1.geojson'
 
-countries_shapefile = '/Users/ritterj1/GIS_data/countries/ref-countries-2020-01m.shp/CNTR_RG_01M_2020_4326.shp/CNTR_RG_01M_2020_4326.shp'
+countries_shapefile = 'file2.shp'
 result_gdf = get_country_iso_codes(geojson_file, countries_shapefile)
 # result_gdf.loc[:,['Name of the dam','Country','ISO_CODES']] # testing
 
