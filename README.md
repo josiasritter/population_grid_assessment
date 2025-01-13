@@ -7,5 +7,5 @@ To appear in Nature Communications, 2025.
 
 Steps to follow:
 1. multipops_all.py is the main program that estimates the population amounts in the rural areas for five global gridded population datasets.
-2. multipops_validation_natcom.py is the program that carries out the validation procedure against reported rural populations and generates figures in the Results section of the paper.
-3. results.geojson is the resulting polygon file that includes the rural areas evaluated, the estimated rural populations, and the reported rural populations.
+2. results.geojson is the resulting polygon file that includes the rural areas evaluated, the estimated rural populations, and the reported rural populations.
+3. multipops_validation_natcom.py is the program that carries out the validation procedure against reported rural populations and generates figures in the Results section of the paper.
