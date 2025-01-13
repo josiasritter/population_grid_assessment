@@ -9,11 +9,7 @@ from matplotlib.cm import get_cmap
 from matplotlib import colors
 from matplotlib.lines import Line2D
 
-#path = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2019/multipops_' + str(n_grids) + 'grids.geojson'
-#path = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/multipops_' + str(n_grids) + 'grids.geojson'
-#path = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/multipops_ICOLD2023.geojson' # this has already filters applied: Built after 1975, Resettlement data, polygon area > 1km2, no transb.
-#path = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/multipops_ICOLD2023_1014y.geojson'
-path = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/multipops_ICOLD2023_natcomm_rev.geojson'
+path = 'multipops_ICOLD2023_natcomm_rev.geojson'
 
 area_adj = 'uniform' # 'none', 'uniform', 'individual'
 resettle_redfact = 1    # [0.5, 1] reduces reported resettlement values
@@ -136,12 +132,12 @@ gdf_in.Resettlement = gdf_in.Resettlement.apply(lambda x: x * resettle_redfact)
 #pdb.set_trace()
 
 ## Write output polygon file with results
-#gdf_in.to_file('/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/results.geojson')
+#gdf_in.to_file('results.geojson')
 
 ### World map showing centroids of reservoirs in colour of reference year
 
 # Read countries shapefile
-world = gpd.read_file('/Users/ritterj1/GIS_data/countries/ref-countries-2020-10m.geojson/CNTR_RG_10M_2020_4326.geojson')
+world = gpd.read_file('CNTR_RG_10M_2020_4326.geojson')
 world = world.loc[~(world['ISO3_CODE'].isin(['ATA']))]  # Remove Antarctica
 
 
@@ -232,7 +228,7 @@ statistics_df = statistics_df.round(1)
 new_row_names = ['Area [km2]', 'Population numbers [people]', 'Population density [people / km2]', 'Altitude [mamsl]']
 statistics_df.index = new_row_names
 
-#statistics_df.to_csv('/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/stat_properties.csv', header=True)#, index=False)#, mode='a')
+statistics_df.to_csv('stat_properties.csv', header=True)#, index=False)#, mode='a')
 
 pdb.set_trace()
 
@@ -249,13 +245,6 @@ from polsize_barplot import polsize_barplot
 #polsize_barplot(gdf_in, popgrid_shortnames, 'plg_a_km2', bins, xlabel='Surface area [km²]', ylabel='Number of rural areas evaluated')
 polsize_barplot(gdf_in, popgrid_shortnames, 'area_adj', bins, xlabel='Surface area [km²]', ylabel='Number of rural areas evaluated')
 pdb.set_trace()
-
-## Stacked bar chart of Relative Estimation Error (REE)
-
-#from ree import ree
-#ree(gdf_in, popgrid_names, popgrid_shortnames)
-
-#pdb.set_trace()
 
 ### Circular bar charts for country-specific bias scores
 
@@ -277,7 +266,7 @@ df_bias_cntr['mean'] = df_bias_cntr[popgrid_shortnames].mean(axis=1).round(decim
 df_biasperc_country = df_bias_cntr.join(refyearstring)
 df_biasperc_country = df_biasperc_country.reset_index()
 df_biasperc_country.rename(columns = {'index':'ISO3','gwp-un':popgrid_names[0],'grump-un':popgrid_names[1],'ghs':popgrid_names[2],'lscan':popgrid_names[3],'wpop-un':popgrid_names[4],'mean':'Mean','refyear':'Reference years (number of areas evaluated)'}, inplace = True)
-df_biasperc_country.to_csv('/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/biasperc_country.csv', header=True, index=False)#, mode='a')
+df_biasperc_country.to_csv('biasperc_country.csv', header=True, index=False)#, mode='a')
 
 # PLOT
 from bias_circles import biascircles_plot
@@ -292,23 +281,5 @@ world_bias = incl_countries.merge(df_biasperc_country, left_on='ISO3_CODE', righ
 # Create map
 from meanbias_map import meanbias_map_plot
 meanbias_map_plot(world, world_bias)
-
-pdb.set_trace()
-
-### Compute overall population of included countries (2021 estimates from UNSTAT https://population.un.org/wpp/)
-
-# Can be commented if above code is run:
-#pathname = '/Users/ritterj1/PythonProjects/PycharmProjects/damIA/GeoDAR_ICOLD_displaced_valid/multi_pops/ICOLD2023/lowfilters/results.geojson'
-#gdf_results = gpd.read_file(pathname)
-#groupnames = gdf_results.ISO_CODES.unique()
-
-unfile = '/Users/ritterj1/GIS_data/popdens/country_totals/UN_WPP2022_GEN_F01_DEMOGRAPHIC_INDICATORS_COMPACT_REV1.xlsx'
-un_df = pd.read_excel(unfile, sheet_name='Estimates', header=16)
-un_2021 = un_df.loc[(un_df['Year'] == 2021)]
-un_2021_cntr = un_2021[un_2021['ISO3 Alpha-code'].isin(groupnames)]
-
-total_pop_cntr = un_2021_cntr['Total Population, as of 1 July (thousands)'].sum() * 1e3 # for lowfilters (35 countries): total_pop = 2,717,147,583 = 34 % of world population
-
-
 
 pdb.set_trace()
