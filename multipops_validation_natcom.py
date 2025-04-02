@@ -38,14 +38,6 @@ gdf_in = gdf_in.loc[~(gdf_in['Name of the dam'].isin(ext_dams))]
 
 #pdb.set_trace()
 
-# Fix area unit errors in ICOLD database (some entries use km2 but most use 10^3 km2). Divide by 1000 where ratio between values is larger than factor 100
-#gdf_in = gdf_in.loc[(gdf_in['Area of Reservoir'].notnull())]
-#gdf_in['Area of Reservoir'] = np.where(((gdf_in['Area of Reservoir'] / gdf_in['plg_a_km2']) > 1e4), gdf_in['Area of Reservoir'] / 1e6, gdf_in['Area of Reservoir'])   # 10^6 km2 to km2
-#gdf_in['Area of Reservoir'] = np.where(((gdf_in['Area of Reservoir'] / gdf_in['plg_a_km2']) > 1e2), gdf_in['Area of Reservoir'] / 1e3, gdf_in['Area of Reservoir'])     # 10^3 km2 to km2
-
-# Filter out dams where polygon area and ICOLD area value do not correspond
-#gdf_in = gdf_in.loc[(((gdf_in['plg_a_km2']) / gdf_in['Area of Reservoir']) < 4/3) & ((gdf_in['plg_a_km2'] / (gdf_in['Area of Reservoir'])) > 2/3)]
-
 # Exclude China to test their dominance on results due to high numbers of dams
 if china == 'out':
     gdf_in = gdf_in.loc[(gdf_in['Country'] != 'China')]
@@ -67,14 +59,6 @@ gdf_in = gdf_in.loc[gdf_in.popdens_ICOLD < density_filt]
 total_popdens = gdf_in['Resettlement'].sum() / (gdf_in['plg_a_km2'].sum() / (1-0.188))  #
 #gdf_in['popdens_ICOLD2'].plot(kind='hist', bins=np.arange(0, 1800, 300))
 
-#gdf_highpopdens = gdf_in.loc[gdf_in.popdens_ICOLD > 1000]   # This brings out 17 Chinese reservoirs with density > 1000 people/km2, of which 14 completed in GHS time, 3 in Grump/GHS time. Removing them would not be a big harm.
-#gdf_in['popdens_ICOLD'].plot(kind='hist', bins=np.arange(0, 1100, 100))
-#gdf_highpopdens = gdf_in.loc[gdf_in.popdens_ICOLD > 500]   # This brings out 53 Chinese reservoirs with density > 500 people/km2, most of them in GHS time, 1 in 2000, 1 in 2010. Removing them would not be a big harm.
-#gdf_in['popdens_ICOLD'].plot(kind='hist', bins=np.arange(0, 550, 50))
-#gdf_highpopdens = gdf_in.loc[gdf_in.popdens_ICOLD > 300]   # This brings out 76 Chinese and 1 Pakistani reservoir with density > 300 people/km2, most of them in GHS time, 2 in 2000, 1 in 2010. Removing them a challenge for error scores.
-#gdf_in['popdens_ICOLD'].plot(kind='hist', bins=np.arange(0, 310, 10))
-#gdf_highpopdens.groupby(['Country'])['Country'].count()
-
 #pdb.set_trace()
 
 ## Bar plot of numbers of dams per map
@@ -88,26 +72,12 @@ from area_scatter import area_scatterplot
 ## Apply area adjustment factor to population estimates in order to mitigate systematic area underrepresentation in GeoDAR polygons
 
 if area_adj == 'none':
-    gdf_in['area_adj_fct'] = [1]*len(gdf_in)        # default (no adjustment)
+    gdf_in['area_adj_fct'] = [1]*len(gdf_in)        # no adjustment
 elif area_adj == 'uniform':
     adj_fact = 0.812 / 1   # Inversed! Uniform regression-based adjustment factor (analysis of all GeoDAR dams with outlier filter 5 found a mean bias rate of -18.8%)
     gdf_in['area_adj_fct'] = 0.812 / 1  # Inversed! Uniform regression-based adjustment factor (analysis of all GeoDAR dams with outlier filter 5 found a mean bias rate of -18.8%)
-elif area_adj == 'individual':
-    #gdf_in['area_adj_fct'] = gdf_in['Area of Reservoir'] / gdf_in['plg_a_km2']  # Individual adjustment factor for each dam according to ratio of ICOLD reported area and polygon geometry area
-    gdf_in['area_adj_fct'] = gdf_in['plg_a_km2'] / gdf_in['Area of Reservoir']   # inversed! # Individual adjustment factor for each dam according to ratio of ICOLD reported area and polygon geometry area
 
 gdf_in['area_adj'] = gdf_in['plg_a_km2'] / 0.812
-
-# Plot distribution of area_adj_fct
-#from adj_factor_barplot import adj_factor_barplot
-#adj_factor_barplot(gdf_in)
-
-# Testing
-#gdf_adj_08_12 = gdf_in.loc[(gdf_in['area_adj_fct'] > 0.8) & (gdf_in['area_adj_fct'] < 1.2)]     # This gives 125 dams in 18 countries on all continents
-#gdf_adj_07_13 = gdf_in.loc[(gdf_in['area_adj_fct'] > 0.7) & (gdf_in['area_adj_fct'] < 1.3)]     # This gives 164 dams in 22 countries on all continents, might be worth doing!
-#gdf_adj_07_15 = gdf_in.loc[(gdf_in['area_adj_fct'] > 0.75) & (gdf_in['area_adj_fct'] < 1.5)]     # This gives 186 dams in 27 countries on all continents. With still 28 dams in 2000-2010, compared to initially 35. This looks good!!!
-#gdf_adj_lt07 = gdf_in.loc[(gdf_in['area_adj_fct'] < 0.75)]
-#gdf_adj_gt15 = gdf_in.loc[(gdf_in['area_adj_fct'] > 1.5)]
 
 # Check spatial distribution
 #dams_cou_counts = gdf_s10_tight.groupby(['Country'])['Country'].count()
@@ -118,7 +88,7 @@ gdf_in['area_adj'] = gdf_in['plg_a_km2'] / 0.812
 # gdf_adj_fct_lt1_wcea = gdf_adj_fct_lt1.to_crs('ESRI:54034').copy() # This projection was used by GeoDAR area calculation
 # #gdf_adj_fct_lt1_scea = gdf_adj_fct_lt1.to_crs('ESRI:53034').copy()
 # #gdf_adj_fct_lt1_lambert = gdf_adj_fct_lt1.to_crs('IGNF:ETRS89LAEA').copy()
-# # Conclusions: 1. Projection affects only by about 1-2 % (as long as any global equal-area projection is chosen). 2. GeoDAR can actually overestimate polygons (e.g. Porce II). -> Let's allow for adjustment factors < 1
+# # Conclusions: 1. Projection affects only by about 1-2 % (as long as any global equal-area projection is chosen).
 
 #pdb.set_trace()
 
@@ -242,7 +212,6 @@ bins = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 5000] # Predefined bins (area ran
 
 # Call the function to plot the histogram
 from polsize_barplot import polsize_barplot
-#polsize_barplot(gdf_in, popgrid_shortnames, 'plg_a_km2', bins, xlabel='Surface area [km²]', ylabel='Number of rural areas evaluated')
 polsize_barplot(gdf_in, popgrid_shortnames, 'area_adj', bins, xlabel='Surface area [km²]', ylabel='Number of rural areas evaluated')
 pdb.set_trace()
 
